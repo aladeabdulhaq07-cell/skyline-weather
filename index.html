@@ -96,6 +96,12 @@ footer a{color:inherit}
   <footer>Forecast data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></footer>
 </div>
 
+<script type="module">
+  // Initialize Vercel Speed Insights
+  import { injectSpeedInsights } from 'https://cdn.jsdelivr.net/npm/@vercel/speed-insights@2.1.0/+esm';
+  injectSpeedInsights();
+</script>
+
 <script>
 (function(){
   var DEFAULT = {name:'Lagos', admin:'Lagos, Nigeria', lat:6.5244, lon:3.3792};
