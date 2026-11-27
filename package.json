@@ -1,0 +1,24 @@
+{
+  "name": "skyline-weather",
+  "version": "1.0.0",
+  "description": "Skyline Weather - A beautiful weather application",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "test": "echo \"No tests specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aladeabdulhaq07-cell/skyline-weather.git"
+  },
+  "keywords": ["weather", "vercel", "speed-insights"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aladeabdulhaq07-cell/skyline-weather/issues"
+  },
+  "homepage": "https://github.com/aladeabdulhaq07-cell/skyline-weather#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.1.0"
+  }
+}
