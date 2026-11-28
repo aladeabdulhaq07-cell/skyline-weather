@@ -78,6 +78,86 @@ footer{font-size:12px;color:var(--muted);text-align:center}
 footer a{color:inherit}
 @media (max-width:420px){.day{grid-template-columns:52px 28px 38px 1fr 38px;gap:8px;padding:12px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  #skyline-ai {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9999;
+  font-family: Arial, sans-serif;
+}
+
+#ai-toggle {
+  background: #1677ff;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px #0003;
+}
+
+#ai-chat {
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  height: 400px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px #0004;
+  margin-bottom: 12px;
+  overflow: hidden;
+  color: #222;
+}
+
+#ai-chat[hidden] {
+  display: none;
+}
+
+.ai-header {
+  background: #1677ff;
+  color: white;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+#ai-close {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 24px;
+}
+
+#ai-messages {
+  height: 275px;
+  padding: 12px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+#ai-form {
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+}
+
+#ai-input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+#ai-form button {
+  background: #1677ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+}
 </style>
 </head>
 <body data-sky="clear-day">
