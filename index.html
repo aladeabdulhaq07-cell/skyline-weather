@@ -343,12 +343,28 @@ footer a{color:inherit}
 
   $('units').addEventListener('click',function(){state.f=!state.f;save();load();});
   $('locate').addEventListener('click',function(){
-    if(!navigator.geolocation){return;}
-    navigator.geolocation.getCurrentPosition(function(p){
-      state.place={name:'Your location',admin:'Your location',lat:+p.coords.latitude.toFixed(3),lon:+p.coords.longitude.toFixed(3)};
-      save(); load();
-    },function(){ main.insertAdjacentHTML('afterbegin','<div class="msg">Location access was declined. Search for a city instead.</div>'); });
+  if(!navigator.geolocation){
+    alert('Location is not supported by this browser.');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(function(p){
+    state.place={
+      name:'Your location',
+      admin:'Your location',
+      lat:+p.coords.latitude.toFixed(3),
+      lon:+p.coords.longitude.toFixed(3)
+    };
+    save();
+    load();
+  },function(error){
+    alert('Location error: ' + error.message);
+  },{
+    enableHighAccuracy:false,
+    timeout:10000,
+    maximumAge:60000
   });
+});
   document.addEventListener('DOMContentLoaded', function() {
   var aiForm = $('ai-form');
   var aiInput = $('ai-input');
