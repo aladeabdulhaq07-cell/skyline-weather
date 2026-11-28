@@ -374,7 +374,9 @@ footer a{color:inherit}
 
     if (/weather|temperature|rain|humidity|wind|forecast|hot|cold/.test(q)) {
       Promise.all([
-        fetch('/api/weather?city=' + encodeURIComponent(state.place.name)),
+        fetch(state.place.name === 'Your location'
+  ? '/api/weather?lat=' + state.place.lat + '&lon=' + state.place.lon
+  : '/api/weather?city=' + encodeURIComponent(state.place.name))
         fetch(url(state.place))
       ])
       .then(function(r) {
