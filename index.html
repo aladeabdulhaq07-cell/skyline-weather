@@ -347,7 +347,89 @@ footer a{color:inherit}
       save(); load();
     },function(){ main.insertAdjacentHTML('afterbegin','<div class="msg">Location access was declined. Search for a city instead.</div>'); });
   });
+  var aiForm = $('ai-form');
+  var aiInput = $('ai-input');
+  var aiMessages = $('ai-messages');
 
+  function aiReply(message) {
+    var p = document.createElement('p');
+    p.textContent = message;
+    aiMessages.appendChild(p);
+    aiMessages.scrollTop = aiMessages.scrollHeight;
+  }
+
+  aiForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var question = aiInput.value.trim();
+    if (!question) return;
+
+    aiReply('You: ' + question);
+    aiInput.value = '';
+
+    var q = question.toLowerCase();
+
+    if (/weather|temperature|rain|humidity|wind|forecast|hot|cold/.test(q)) {
+      Promise.all([
+        fetch('/api/weather?city=' + encodeURIComponent(state.place.name)),
+        fetch(url(state.place))
+      ])
+      .then(function(r) {
+        if (!r[0].ok || !r[1].ok) throw new Error('Weather error');
+        return Promise.all([r[0].json(), r[1].json()]);
+      })
+      .then(function(data) {
+        var w = data[0];
+        var f = data[1];
+        var unit = state.f ? '°F' : '°C';
+        var temp = state.f ? w.main.temp * 9 / 5 + 32 : w.main.temp;
+        var wind = state.f ? w.wind.speed * 2.23694 : w.wind.speed * 3.6;
+        var windUnit = state.f ? 'mph' : 'km/h';
+        var condition = w.weather[0].description;
+
+        var answer = 'Weather in ' + state.place.name +
+          ': ' + temp.toFixed(1) + unit +
+          ', ' + condition +
+          '. Humidity: ' + w.main.humidity +
+          '%. Wind: ' + wind.toFixed(1) + ' ' + windUnit + '.';
+
+        if (/forecast|tomorrow|7.day|week/.test(q)) {
+          answer += ' Today: high ' +
+            f.daily.temperature_2m_max[0] + unit +
+            ', low ' + f.daily.temperature_2m_min[0] + unit + '.';
+
+          if (f.daily.time[1]) {
+            answer += ' Tomorrow: high ' +
+              f.daily.temperature_2m_max[1] + unit +
+              ', low ' + f.daily.temperature_2m_min[1] + unit + '.';
+          }
+        }
+
+        aiReply('Skyline AI: ' + answer);
+      })
+      .catch(function() {
+        aiReply('Skyline AI: Sorry, I could not get the weather right now.');
+      });
+
+    } else if (/hello|hi|good morning|good evening/.test(q)) {
+      aiReply('Skyline AI: Hello! How can I help you today?');
+
+    } else if (/photosynthesis/.test(q)) {
+      aiReply('Skyline AI: Photosynthesis is the process plants use to make food using sunlight, water and carbon dioxide.');
+
+    } else if (/gravity/.test(q)) {
+      aiReply('Skyline AI: Gravity is the force that attracts objects toward one another. It keeps us on Earth.');
+
+    } else if (/newton/.test(q)) {
+      aiReply('Skyline AI: Newton’s third law states that every action has an equal and opposite reaction.');
+
+    } else if (/html|website|coding/.test(q)) {
+      aiReply('Skyline AI: HTML is the language used to structure web pages. CSS styles them, while JavaScript adds interactions.');
+
+    } else {
+      aiReply('Skyline AI: I can answer weather questions and some general science and technology questions. I do not have a full AI language model connected yet.');
+    }
+  });
   load();
 })();
 </script>
