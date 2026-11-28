@@ -271,5 +271,24 @@ footer a{color:inherit}
   load();
 })();
 </script>
+  <div id="skyline-ai">
+  <button id="ai-toggle">☁ Skyline AI</button>
+
+  <div id="ai-chat" hidden>
+    <div class="ai-header">
+      <span>Skyline AI</span>
+      <button id="ai-close">×</button>
+    </div>
+
+    <div id="ai-messages">
+      <p>Hi! I'm Skyline AI. Ask me about the weather.</p>
+    </div>
+
+    <form id="ai-form">
+      <input id="ai-input" type="text" placeholder="Ask about the weather..." required>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+  </div>
 </body>
 </html>
