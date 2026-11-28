@@ -370,5 +370,18 @@ footer a{color:inherit}
     </form>
   </div>
   </div>
+  <script>
+  const aiToggle = document.getElementById('ai-toggle');
+  const aiChat = document.getElementById('ai-chat');
+  const aiClose = document.getElementById('ai-close');
+
+  aiToggle.addEventListener('click', function() {
+    aiChat.hidden = !aiChat.hidden;
+  });
+
+  aiClose.addEventListener('click', function() {
+    aiChat.hidden = true;
+  });
+  </script>
 </body>
 </html>
