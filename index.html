@@ -152,13 +152,41 @@ footer a{color:inherit}
      +(state.f?'&temperature_unit=fahrenheit&wind_speed_unit=mph':'&wind_speed_unit=kmh');
   }
 
-  function load(){
+    function load(){
     $('units').textContent = state.f?'°F':'°C';
     main.innerHTML='<div class="msg">Loading forecast…</div>';
-    fetch(url(state.place)).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
-      .then(render)
-      .catch(function(){ main.innerHTML='<div class="msg">Could not load the forecast. Check your connection and try again.</div>'; });
-  }
+
+    Promise.all([
+      fetch(url(state.place)),
+      fetch('/api/weather?city='+encodeURIComponent(state.place.name))
+    ])
+    .then(function(responses){
+      if(!responses[0].ok || !responses[1].ok) throw new Error('Weather request failed');
+      return Promise.all([responses[0].json(),responses[1].json()]);
+    })
+    .then(function(data){
+      var forecast=data[0];
+      var weather=data[1];
+      var condition=weather.weather[0].main;
+      var codes={Clear:0,Clouds:3,Rain:61,Drizzle:51,Thunderstorm:95,Snow:71,Mist:45,Fog:45,Haze:45};
+      var factor=state.f?2.23694:3.6;
+      var temp=weather.main.temp;
+      var feels=weather.main.feels_like;
+
+      forecast.current.temperature_2m=state.f?temp*9/5+32:temp;
+      forecast.current.apparent_temperature=state.f?feels*9/5+32:feels;
+      forecast.current.relative_humidity_2m=weather.main.humidity;
+      forecast.current.weather_code=codes[condition]||3;
+      forecast.current.wind_speed_10m=weather.wind.speed*factor;
+      forecast.current.surface_pressure=weather.main.pressure;
+      forecast.current.is_day=weather.weather[0].icon.endsWith('d');
+
+      render(forecast);
+    })
+    .catch(function(){
+      main.innerHTML='<div class="msg">Could not load the forecast. Check your connection and try again.</div>';
+    });
+    }
 
   function render(d){
     var c=d.current, day=!!c.is_day, w=WMO[c.weather_code]||['Unknown','cloud'];
