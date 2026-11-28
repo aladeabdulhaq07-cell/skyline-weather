@@ -1,3 +1,4 @@
+
 export default async function handler(req, res) {
   const apiKey = process.env.OPENWEATHER_API_KEY;
 
@@ -7,11 +8,20 @@ export default async function handler(req, res) {
     });
   }
 
-  const city = req.query.city || "Lagos";
+  const city = req.query.city;
+  const lat = req.query.lat;
+  const lon = req.query.lon;
 
   try {
     const url = new URL("https://api.openweathermap.org/data/2.5/weather");
-    url.searchParams.set("q", city);
+
+    if (lat && lon) {
+      url.searchParams.set("lat", lat);
+      url.searchParams.set("lon", lon);
+    } else {
+      url.searchParams.set("q", city || "Lagos");
+    }
+
     url.searchParams.set("appid", apiKey);
     url.searchParams.set("units", "metric");
 
