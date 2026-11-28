@@ -347,6 +347,7 @@ footer a{color:inherit}
       save(); load();
     },function(){ main.insertAdjacentHTML('afterbegin','<div class="msg">Location access was declined. Search for a city instead.</div>'); });
   });
+  document.addEventListener('DOMContentLoaded', function() {
   var aiForm = $('ai-form');
   var aiInput = $('ai-input');
   var aiMessages = $('ai-messages');
@@ -429,7 +430,7 @@ footer a{color:inherit}
     } else {
       aiReply('Skyline AI: I can answer weather questions and some general science and technology questions. I do not have a full AI language model connected yet.');
     }
-  });
+  });  });
   load();
 })();
 </script>
