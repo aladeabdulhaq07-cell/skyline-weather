@@ -392,7 +392,7 @@ footer a{color:inherit}
       Promise.all([
         fetch(state.place.name === 'Your location'
   ? '/api/weather?lat=' + state.place.lat + '&lon=' + state.place.lon
-  : '/api/weather?city=' + encodeURIComponent(state.place.name))
+  : '/api/weather?city=' + encodeURIComponent(state.place.name)),
         fetch(url(state.place))
       ])
       .then(function(r) {
