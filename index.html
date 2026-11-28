@@ -238,7 +238,9 @@ footer a{color:inherit}
 
     Promise.all([
       fetch(url(state.place)),
-      fetch('/api/weather?city='+encodeURIComponent(state.place.name))
+      fetch(state.place.name === 'Your location'
+  ? '/api/weather?lat=' + state.place.lat + '&lon=' + state.place.lon
+  : '/api/weather?city=' + encodeURIComponent(state.place.name))
     ])
     .then(function(responses){
       if(!responses[0].ok || !responses[1].ok) throw new Error('Weather request failed');
