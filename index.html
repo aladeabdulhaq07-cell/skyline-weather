@@ -176,7 +176,7 @@ footer a{color:inherit}
       forecast.current.temperature_2m=state.f?temp*9/5+32:temp;
       forecast.current.apparent_temperature=state.f?feels*9/5+32:feels;
       forecast.current.relative_humidity_2m=weather.main.humidity;
-      forecast.current.weather_code=codes[condition]||3;
+      forecast.current.weather_code=codes[condition]===undefined?3:codes[condition];
       forecast.current.wind_speed_10m=weather.wind.speed*factor;
       forecast.current.surface_pressure=weather.main.pressure;
       forecast.current.is_day=weather.weather[0].icon.endsWith('d');
